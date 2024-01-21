@@ -1,0 +1,18 @@
+import praw
+
+def redditconnect():
+    reddit = praw.Reddit(
+        client_id="iMODsKURC8Y0xgRN4xVEvA",
+        client_secret="TSIXOxDP0fv17WUXgiHRIy3Lcb2NHw",
+        user_agent="my_first_agent",
+        username="Outside-Traffic1624",
+        password="k^DEM?3$i*mWv93",)
+    # Check if the authentication was successful
+    if reddit.read_only:
+        print("Failed to authenticate. Read-only mode.")
+        return None
+
+    # Print the authenticated username
+    print("Successfully authenticated as:", reddit.user.me())
+
+    return reddit
