@@ -1,0 +1,23 @@
+import praw
+
+def redditconnect():
+    reddit = praw.Reddit(
+        client_id="iMODsKURC8Y0xgRN4xVEvA",
+        client_secret="TSIXOxDP0fv17WUXgiHRIy3Lcb2NHw",
+        user_agent="my_first_agent",
+        username="Outside-Traffic1624",
+        password="k^DEM?3$i*mWv93")
+    if not reddit.read_only:
+        print("Successfully authenticated as:", reddit.user.me())
+        return reddit
+    else:
+        print("Authentication failed.")
+        return None
+reddit_instance = redditconnect()
+
+
+subreddit = reddit_instance.subreddit("Cats")
+#print(subreddit.display_name)  # This will print the subreddit name
+top_25_submissions = subreddit.top(limit=10, time_filter="day")
+for submission in top_25_submissions:
+    print(submission.title)
