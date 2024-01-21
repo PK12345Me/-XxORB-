@@ -1,0 +1,51 @@
+import pandas as pd
+from sklearn import datasets, linear_model
+from sklearn.model_selection import train_test_split
+from matplotlib import pyplot as plt
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+import pickle
+from sklearn.externals import joblib
+
+
+attr = pd.read_csv('hrattrition.csv')
+atrn =attr[['Group Text','Division Text','Department Text','Team Text','Position','Tenure_bucket']]
+y = attr.Employed      #target
+attr.info()
+X_train, X_test, y_train, y_test = train_test_split(attr.drop('Employed', axis=1), y, test_size=0.3) #test_size denotes the 70:30 data split
+print (X_train.shape, y_train.shape)
+print (X_test.shape, y_test.shape)
+
+from sklearn.linear_model import LogisticRegression
+lm = LogisticRegression()
+lm.fit(X_train,y_train)
+predictions = lm.predict(X_test)
+
+predictions[0:5]
+
+from sklearn.metrics import classification_report ----- it shows the accuracy tho, but second opinion is needed.
+print(classification_report(y_test,predictions))
+
+plt.scatter(y_test, predictions)
+plt.xlabel('True Values')
+plt.ylabel('Predictions')
+
+-------------forest -----------
+model = RandomForestClassifier()
+model.fit(X, y)
+print ('Score:', model.score(X_test, y_test))
+
+feat_importances = pd.Series(model.feature_importances_, index=atrn.columns) #for plotting the main reason for attrition
+feat_importances = feat_importances.nlargest(20)
+feat_importances.plot(kind='barh')
+----------------------------------
+filename = 'finalized_attrition_model_2.sav' #saving the file to be easily callable later
+pickle.dump(model, open(filename, 'wb'))
+----------------------------uploading an unseen variable----------
+loaded_model = pickle.load(open('finalized_attrition_model_2.sav', 'rb'))
+#loaded_model = joblib.load('finalized_attrition_model_2.sav')
+#Xnew= pd.read_csv('hrunseen.csv') ----this isnt working properly, need to address this.
+Xnew=[['1','1','1','16','40','2']] 
+ynew = loaded_model.predict(Xnew) 
+for i in range(len(Xnew)): 
+    print((Xnew[0], ynew[0])) ---------------this is working but accuracy isnt certain.
