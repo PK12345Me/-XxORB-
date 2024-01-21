@@ -1,0 +1,37 @@
+INSERT OVERWRITE DIRECTORY 's3a://paytmlabs-marketing-ong-workspace/Aman'
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
+select count(o.payer_id) as count_of_txn, o.payer_id as Cust_id, count(case when o.txn_type = 1 then 1 else 0 end) as count_of_p2m ,count(case when o.txn_type = 69 then 1 else 0 end) as count_of_p2p,count(case when o.txn_type = 1 then 0 when o.txn_type = 69 then 0 else 1 end) as count_of_rest 
+from o2o_scheduled_rpt.total_unorganised_merchant m 
+Join wallet.new_system_txn_request_snapshot_v3 o ON o.payee_id = m.payee_id
+where o.txn_message = 'SUCCESS' and o.create_timestamp between '2017-03-01 00:00:01' and '2018-03-31 23:59:59'
+and m.category IN ('AUTO',
+'Auto',
+'Auto ',
+'Auto (Outlet)',
+'E-Rickshaw',
+'JUGNOO',
+'Taxi',
+'auto',
+'Auto',
+'Auto (Outlet)',
+'Auto(Outlet)',
+'Taxi',
+'Travel',
+'Auto',
+'Bike Taxi',
+'Commercial Taxi',
+'Cool Cab',
+'Cool cab',
+'Kaali Pili Taxi',
+'Ola and Uber',
+'Only Ola',
+'TAXI',
+'TAxi',
+'Taxi',
+'taxi',
+'Auto',
+'Car Rental',
+'Taxi')
+Group by o.payer_id;
+
+SUM(case when o.txn_type = 1 then 1 else 0 end) as count_of_p2m, SUM(case when o.txn_type = 69 then 1 else 0 end) as count_of_p2p, SUM(case when o.txn_type = 1 then 0 when o.txn_type = 69 then 0 else 1 end) as count_of_rest
