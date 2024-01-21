@@ -1,0 +1,24 @@
+import praw
+
+def redditconnect():
+    reddit = praw.Reddit(
+        client_id="iMODsKURC8Y0xgRN4xVEvA",
+        client_secret="TSIXOxDP0fv17WUXgiHRIy3Lcb2NHw",
+        user_agent="my_first_agent",
+        username="Outside-Traffic1624",
+        password="********")
+    if not reddit.read_only:
+        print("Successfully authenticated as:", reddit.user.me())
+        return reddit
+    else:
+        print("Authentication failed.")
+        return None
+reddit_instance = redditconnect()
+
+if reddit_instance:
+    # Now, let's get information about a specific subreddit (e.g., "cats")
+    subreddit = reddit_instance.subreddit("Cats")
+    print(subreddit.display_name)  # This will print the subreddit name
+else:
+    print("Authentication failed. Cannot access subreddit.")
+
