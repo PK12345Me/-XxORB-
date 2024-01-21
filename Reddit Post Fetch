@@ -1,0 +1,17 @@
+import praw
+
+def redditconnect():
+    reddit = praw.Reddit(
+        client_id='iMODsKURC8Y0xgRN4xVEvA',
+        client_secret='TSIXOxDP0fv17WUXgiHRIy3Lcb2NHw',
+        user_agent='my_first_agent',
+        username='',
+        password='',)
+    print(reddit.read_only)
+    return reddit
+
+def PrintPostSubReddit(redditcon, subreddit):
+    for submission in redditcon.subreddit(subreddit).hot(limit=10):
+        print(submission)
+if __name__ == '__main__':
+    PrintPostSubReddit(redditconnect(), 'test')
