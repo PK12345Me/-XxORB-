@@ -1,0 +1,10 @@
+from geopandas import GeoDataFrame
+import geopandas as gpd
+import pandas as pd
+gdf1 = gpd.read_file('gadm36_PHL.gpkg')
+
+gdf2 = gdf1.drop(['GID_0','NAME_0','GID_1', 'NL_NAME_1','GID_2', 'NL_NAME_2','GID_3', 'VARNAME_3','NL_NAME_3','ENGTYPE_3',
+                  'CC_3','HASC_3'], axis=1)
+province =['Ilocos Norte',]
+gdf3=gdf2.loc[gdf2['NAME_1'] .isin(province)]
+gdf3.head()
