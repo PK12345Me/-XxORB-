@@ -1,0 +1,13 @@
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
+import time
+
+SPOTIPY_CLIENT_ID = '<<encrypted>>'
+SPOTIPY_CLIENT_SECRET = '<<encrypted>>'
+SPOTIPY_REDIRECT_URI = 'http://localhost:8080/'
+scope = ['user-library-read','playlist-modify-private']
+
+sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id = SPOTIPY_CLIENT_ID,
+                                               client_secret =SPOTIPY_CLIENT_SECRET, 
+                                               redirect_uri= SPOTIPY_REDIRECT_URI,
+                                               scope=scope))
