@@ -1,0 +1,59 @@
+new = (input("Input a card number: "))
+n = len(new)
+if (12 < n < 17):
+    #
+    act_sum = 0
+    two_dig = []
+    thr_dig = []
+    listn = []
+    total = 0
+    for char in new:
+        num = int(char)
+        listn.append(num)
+
+    for i in range(len(listn) - 2, -1, -2):  # looking thru a list to get the indiv chars
+        two_dig.append(listn[i])
+
+    for j in range(len(two_dig)):
+        num = two_dig[j] * 2  # in listn: #for numbers greater than 9
+        if num > 9:
+            total += num % 10
+            num //= 10
+            total += num
+
+        else:
+            act_sum += num
+
+    sum_first = total + act_sum
+
+    for i in range(len(listn) - 1, -1, -2):  # start, stop, step, stop at -1 captures the first element in original list
+        thr_dig.append(listn[i])
+
+    sum_second = sum(thr_dig)
+
+    gross = sum_first + sum_second
+
+    if gross % 10 == 0:
+        if listn[0] == 5 and listn[1] in [1, 2, 3, 4, 5]:
+            {
+                print('MASTERCARD\n')
+            }
+        elif listn[0] == 3 and listn[1] in [4, 7]:
+            {
+                print('AMEX')
+            }
+        elif listn[0] == 4:
+            {
+                print('VISA')
+            }
+        else:
+            {
+                print('INVALID')
+            }
+    else:
+        {
+            print('INVALID')
+        }
+
+else:
+    print('INVALID\n')
